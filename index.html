@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ثبت تصویر و موقعیت</title>
+<style>
+body {
+  font-family: sans-serif;
+  direction: rtl;
+  background: #f2f2f2;
+  padding: 20px;
+}
+.box {
+  background: #fff;
+  max-width: 480px;
+  margin: auto;
+  padding: 20px;
+  border-radius: 8px;
+}
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+  <h3>اطلاع‌رسانی</h3>
+  <p>
+    با زدن دکمه زیر و اعلام رضایت:
+  </p>
+  <ul>
+    <li>یک عکس با دوربین گرفته می‌شود</li>
+    <li>موقعیت مکانی (GPS) ثبت می‌شود</li>
+    <li>اطلاعات روی سرور ذخیره می‌شود</li>
+  </ul>
+
+  <button id="btn">موافقم و ادامه می‌دهم</button>
+
+  <video id="video" autoplay playsinline style="display:none"></video>
+  <canvas id="canvas" style="display:none"></canvas>
+</div>
+
+<script>
+const btn = document.getElementById('btn');
+const video = document.getElementById('video');
+const canvas = document.getElementById('canvas');
+
+btn.onclick = async () => {
+  btn.disabled = true;
+  btn.innerText = 'در حال ثبت اطلاعات...';
+
+  const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+  video.srcObject = stream;
+
+  await new Promise(r => setTimeout(r, 1500));
+
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas.getContext('2d').drawImage(video, 0, 0);
+  const image = canvas.toDataURL('image/jpeg');
+
+  navigator.geolocation.getCurrentPosition(async pos => {
+    await fetch('PASTE_BACKEND_URL_HERE', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        image,
+        lat: pos.coords.latitude,
+        lon: pos.coords.longitude,
+        time: new Date().toISOString()
+      })
+    });
+
+    alert('اطلاعات ثبت شد');
+  });
+};
+</script>
+
+</body>
+</html>
